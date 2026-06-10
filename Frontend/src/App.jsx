@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Toaster } from 'react-hot-toast';
-import { loadUser } from './redux/Slice/user.slice';
+import { loadUser, logout } from './redux/Slice/user.slice';
 import AuthForm from './components/AuthForm';
 import Dashboard from './components/Dashboard';
 import ThemeToggle from './components/ThemeToggle';
@@ -16,6 +16,15 @@ function App() {
     if (token) {
       dispatch(loadUser());
     }
+
+    const handleUnauthorized = () => {
+      dispatch(logout());
+    };
+
+    window.addEventListener('unauthorized', handleUnauthorized);
+    return () => {
+      window.removeEventListener('unauthorized', handleUnauthorized);
+    };
   }, [dispatch]);
 
   if (isLoading && !user) {

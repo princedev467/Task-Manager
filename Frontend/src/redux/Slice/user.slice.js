@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { axiosinstance } from "../../utility/Axios_interceptor";
 
 const initialState = {
-    isLoading: false,
+    isLoading: typeof window !== 'undefined' ? !!localStorage.getItem('token') : false,
     user: null,
     error: null,
 };
