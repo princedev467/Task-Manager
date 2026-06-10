@@ -67,7 +67,7 @@ function App() {
         }}
       />
       
-      {!user && <ThemeToggle />}
+      {!user && <ThemeToggle  />}
       {user ? <Dashboard /> : <AuthForm />}
     </>
   );

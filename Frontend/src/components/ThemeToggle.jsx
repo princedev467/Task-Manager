@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Sun, Moon } from 'lucide-react';
+import { useSelector } from 'react-redux';
 
 const ThemeToggle = () => {
   const [isDark, setIsDark] = useState(() => {
@@ -23,10 +24,14 @@ const ThemeToggle = () => {
     }
   }, [isDark]);
 
+  
+  const { user, isLoading } = useSelector((state) => state.auth);
+  
   return (
     <button
       onClick={() => setIsDark(!isDark)}
       className="theme-toggle"
+      style={{ display: user ? "block" : "none" }}
       aria-label="Toggle Theme"
       title={isDark ? "Switch to Light Mode" : "Switch to Dark Mode"}
     >
