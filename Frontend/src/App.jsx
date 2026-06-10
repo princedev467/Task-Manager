@@ -11,7 +11,6 @@ function App() {
   const dispatch = useDispatch();
   const { user, isLoading } = useSelector((state) => state.auth);
 
-  // On mount, try to restore user session from localStorage token
   useEffect(() => {
     const token = localStorage.getItem('token');
     if (token) {
@@ -58,7 +57,6 @@ function App() {
           },
         }}
       />
-      {/* ThemeToggle is shown on auth page; on dashboard it's embedded in the header */}
       {!user && <ThemeToggle />}
       {user ? <Dashboard /> : <AuthForm />}
     </>

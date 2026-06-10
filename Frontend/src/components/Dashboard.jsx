@@ -11,6 +11,7 @@ import toast from 'react-hot-toast';
 
 const Dashboard = () => {
   const dispatch = useDispatch();
+
   const { user } = useSelector((state) => state.auth);
   const { tasks, isLoading, error } = useSelector((state) => state.tasks);
 
@@ -23,6 +24,7 @@ const Dashboard = () => {
   const [priorityFilter, setPriorityFilter] = useState('all');
   const [sortBy, setSortBy] = useState('newest');
 
+  
   useEffect(() => {
     dispatch(fetchTasks());
   }, [dispatch]);
@@ -40,6 +42,7 @@ const Dashboard = () => {
   const closeSidebar = () => setIsSidebarOpen(false);
   const openSidebar = () => setIsSidebarOpen(true);
 
+
   const handleToggleComplete = async (taskId, completedStatus) => {
     try {
       await dispatch(updateTask({ taskId, taskData: { completed: completedStatus } })).unwrap();
@@ -48,6 +51,7 @@ const Dashboard = () => {
       toast.error('Failed to update task');
     }
   };
+
 
   const handleCreateTask = async (taskData) => {
     try {
@@ -58,6 +62,7 @@ const Dashboard = () => {
       toast.error('Failed to create task');
     }
   };
+
 
   const handleEditTask = async (taskData) => {
     try {
@@ -70,6 +75,7 @@ const Dashboard = () => {
     }
   };
 
+
   const handleDeleteTask = async (taskId) => {
     if (window.confirm('Are you sure you want to delete this task?')) {
       try {
@@ -81,21 +87,25 @@ const Dashboard = () => {
     }
   };
 
+
   const handleLogout = () => {
     dispatch(logout());
     toast.success('Logged out successfully');
     closeSidebar();
   };
 
+  
   const openCreateModal = () => {
     setTaskToEdit(null);
     setIsModalOpen(true);
   };
 
+
   const openEditModal = (task) => {
     setTaskToEdit(task);
     setIsModalOpen(true);
   };
+
 
   const totalCount = tasks.length;
   const completedTasks = tasks.filter((t) => t.completed);
@@ -105,6 +115,7 @@ const Dashboard = () => {
   const completionPercentage = totalCount > 0 ? Math.round((completedCount / totalCount) * 100) : 0;
 
   const highPriorityPending = tasks.filter((t) => !t.completed && t.priority === 'high').length;
+
 
   const filteredTasks = tasks
     .filter((task) => {

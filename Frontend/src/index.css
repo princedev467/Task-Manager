@@ -843,6 +843,12 @@ body {
     align-items: flex-start;
     gap: 0.75rem;
   }
+
+  /* Hide the ThemeToggle inside the desktop header on mobile —
+     the mobile-topbar already renders its own toggle */
+  .header-actions .theme-toggle {
+    display: none;
+  }
 }
 
 @media (max-width: 480px) {
