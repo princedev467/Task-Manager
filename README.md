@@ -40,7 +40,7 @@ Built with a strong focus on:
 | Platform | Link |
 |---|---|
 | 🖥️ Frontend | https://task-manager-black-omega.vercel.app/ |
-| 📦 GitHub Repo | https://github.com/princedev467/Task-Manage |
+| 📦 GitHub Repo | https://github.com/princedev467/Task-Manager/ |
 
 ---
 
