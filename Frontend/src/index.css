@@ -114,11 +114,11 @@ body {
 /* Theme Toggle Button */
 .theme-toggle {
   position: fixed;
-  top: 1.5rem;
-  right: 1.5rem;
-  z-index: 100;
-  width: 44px;
-  height: 44px;
+  top: 1rem;
+  right: 1rem;
+  z-index: 300;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
   border: 1px solid var(--border-color);
   background: var(--panel-bg);
@@ -135,6 +135,15 @@ body {
 .theme-toggle:hover {
   transform: scale(1.05);
   border-color: var(--primary);
+}
+
+@media (max-width: 1023px) {
+  .theme-toggle {
+    top: 0.85rem;
+    right: 3.5rem;
+    width: 38px;
+    height: 38px;
+  }
 }
 
 .icon-container {
@@ -429,16 +438,51 @@ body {
   display: grid;
   grid-template-columns: 280px 1fr;
   min-height: 100vh;
+  position: relative;
 }
 
-@media (max-width: 1024px) {
+@media (max-width: 1023px) {
   .dashboard-container {
     grid-template-columns: 1fr;
   }
+}
 
-  .sidebar {
-    display: none;
-    /* In a real production app we'd add a hamburger menu, but let's keep it responsive */
+/* Sidebar Overlay (mobile) */
+.sidebar-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(2px);
+  z-index: 150;
+  animation: fadeIn 0.2s ease;
+}
+
+/* Mobile close button inside sidebar */
+.sidebar-close-btn {
+  display: none;
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: none;
+  border: 1px solid var(--border-color);
+  color: var(--text-secondary);
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.sidebar-close-btn:hover {
+  background: var(--danger-light);
+  color: var(--danger);
+}
+
+@media (max-width: 1023px) {
+  .sidebar-close-btn {
+    display: flex;
   }
 }
 
@@ -453,6 +497,28 @@ body {
   flex-direction: column;
   gap: 2rem;
   border-radius: 0;
+}
+
+@media (max-width: 1023px) {
+  .sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: min(300px, 85vw);
+    height: 100vh;
+    z-index: 200;
+    transform: translateX(-100%);
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    border-right: 1px solid var(--border-color);
+    border-radius: 0 16px 16px 0;
+    overflow-y: auto;
+    padding-top: 3.5rem;
+  }
+
+  .sidebar.sidebar-open {
+    transform: translateX(0);
+    box-shadow: 4px 0 32px rgba(0,0,0,0.25);
+  }
 }
 
 .sidebar-brand {
@@ -648,6 +714,103 @@ body {
   border-color: rgba(239, 68, 68, 0.2);
 }
 
+/* Mobile Top Bar */
+.mobile-topbar {
+  display: none;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid var(--border-color);
+  background: var(--panel-bg);
+  backdrop-filter: blur(12px);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  margin: 0 -1rem;
+  width: calc(100% + 2rem);
+}
+
+.mobile-menu-btn {
+  background: none;
+  border: 1px solid var(--border-color);
+  color: var(--text-primary);
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: all 0.2s ease;
+}
+
+.mobile-menu-btn:hover {
+  background: var(--primary-light);
+  border-color: var(--primary);
+  color: var(--primary);
+}
+
+.mobile-topbar .brand-name {
+  flex: 1;
+  font-size: 1.1rem;
+}
+
+.mobile-avatar {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--primary), #46a1cb);
+  color: white;
+  font-weight: 700;
+  font-size: 0.8rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-right: 2.5rem;
+}
+
+@media (max-width: 1023px) {
+  .mobile-topbar {
+    display: flex;
+  }
+}
+
+/* Mobile FAB */
+.mobile-fab {
+  display: none;
+  position: fixed;
+  bottom: 1.75rem;
+  right: 1.5rem;
+  width: 58px;
+  height: 58px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--primary), #6366f1);
+  color: white;
+  border: none;
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 8px 24px rgba(59, 130, 246, 0.5);
+  z-index: 120;
+  transition: all 0.2s ease;
+}
+
+.mobile-fab:hover {
+  transform: scale(1.08);
+  box-shadow: 0 12px 32px rgba(59, 130, 246, 0.6);
+}
+
+@media (max-width: 1023px) {
+  .mobile-fab {
+    display: flex;
+  }
+  .btn-add-task {
+    display: none;
+  }
+}
+
 /* Main Content Area */
 .main-content {
   padding: 2.5rem;
@@ -658,9 +821,12 @@ body {
   height: 100vh;
 }
 
-@media (max-width: 640px) {
+@media (max-width: 1023px) {
   .main-content {
-    padding: 1.5rem;
+    padding: 1.25rem 1rem;
+    height: auto;
+    min-height: 100vh;
+    padding-bottom: 6rem;
   }
 }
 
@@ -671,14 +837,17 @@ body {
   gap: 1.5rem;
 }
 
-@media (max-width: 640px) {
+@media (max-width: 1023px) {
   .dashboard-header {
     flex-direction: column;
     align-items: flex-start;
+    gap: 0.75rem;
   }
+}
 
-  .btn-add-task {
-    width: 100%;
+@media (max-width: 480px) {
+  .header-greeting h1 {
+    font-size: 1.5rem;
   }
 }
 
@@ -739,8 +908,24 @@ body {
 .filter-controls {
   display: flex;
   flex-wrap: wrap;
-  gap: 1.5rem;
-  align-items: center;
+  gap: 1rem;
+  align-items: flex-start;
+}
+
+@media (max-width: 480px) {
+  .filter-controls {
+    gap: 0.75rem;
+  }
+  .filter-chips {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    padding-bottom: 2px;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  .filter-chips::-webkit-scrollbar {
+    display: none;
+  }
 }
 
 .control-group {
@@ -857,8 +1042,15 @@ body {
 
 .task-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-  gap: 1.5rem;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.25rem;
+}
+
+@media (max-width: 640px) {
+  .task-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
 }
 
 /* Individual Task Card */
@@ -1059,11 +1251,18 @@ body {
   inset: 0;
   background: rgba(15, 23, 42, 0.6);
   backdrop-filter: blur(8px);
-  z-index: 200;
+  z-index: 500;
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 1.5rem;
+}
+
+@media (max-width: 600px) {
+  .modal-overlay {
+    align-items: flex-end;
+    padding: 0;
+  }
 }
 
 .modal-content {
@@ -1072,6 +1271,15 @@ body {
   padding: 2rem;
   max-height: 90vh;
   overflow-y: auto;
+}
+
+@media (max-width: 600px) {
+  .modal-content {
+    max-width: 100%;
+    max-height: 92vh;
+    border-radius: 20px 20px 0 0 !important;
+    padding: 1.5rem 1.25rem;
+  }
 }
 
 .modal-header {
