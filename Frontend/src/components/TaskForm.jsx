@@ -7,6 +7,17 @@ const TaskForm = ({ isOpen, onClose, onSubmit, taskToEdit }) => {
   const [priority, setPriority] = useState('medium');
   const [dueDate, setDueDate] = useState('');
   const [error, setError] = useState('');
+  const [dateError, setDateError] = useState('');
+
+  // Today's date in YYYY-MM-DD (local time)
+  const getTodayString = () => {
+    const now = new Date();
+    const yyyy = now.getFullYear();
+    const mm = String(now.getMonth() + 1).padStart(2, '0');
+    const dd = String(now.getDate()).padStart(2, '0');
+    return `${yyyy}-${mm}-${dd}`;
+  };
+  const todayStr = getTodayString();
 
   const titleInputRef = useRef(null);
 
@@ -40,9 +51,16 @@ const TaskForm = ({ isOpen, onClose, onSubmit, taskToEdit }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     setError('');
+    setDateError('');
 
     if (!title.trim()) {
       setError('Task title is required');
+      return;
+    }
+
+    // Validate due date is not in the past
+    if (dueDate && dueDate < todayStr) {
+      setDateError('Due date cannot be in the past. Please select today or a future date.');
       return;
     }
 
@@ -123,8 +141,23 @@ const TaskForm = ({ isOpen, onClose, onSubmit, taskToEdit }) => {
                 type="date"
                 id="task-date"
                 value={dueDate}
-                onChange={(e) => setDueDate(e.target.value)}
+                min={todayStr}
+                onChange={(e) => {
+                  const selected = e.target.value;
+                  setDueDate(selected);
+                  if (selected && selected < todayStr) {
+                    setDateError('Due date cannot be in the past. Please select today or a future date.');
+                  } else {
+                    setDateError('');
+                  }
+                }}
               />
+              {dateError && (
+                <div className="date-error-msg">
+                  <AlertCircle size={14} />
+                  <span>{dateError}</span>
+                </div>
+              )}
             </div>
           </div>
 

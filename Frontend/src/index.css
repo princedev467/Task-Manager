@@ -368,6 +368,18 @@ body {
   margin-bottom: 1.25rem;
 }
 
+/* Inline date validation error below the date picker */
+.date-error-msg {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+  color: var(--danger);
+  font-size: 0.78rem;
+  font-weight: 500;
+  margin-top: 0.25rem;
+  animation: fadeIn 0.2s ease;
+}
+
 /* Buttons */
 .btn-primary {
   background: var(--primary);
