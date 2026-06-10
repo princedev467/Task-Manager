@@ -23,7 +23,7 @@ const UserSchema = new mongoose.Schema(
       type: String,
       required: [true, 'Please add a password'],
       minlength: [6, 'Password must be at least 6 characters'],
-      select: false, // Prevents password from being returned by queries by default
+      select: false,
     },
   },
   {
@@ -31,7 +31,6 @@ const UserSchema = new mongoose.Schema(
   }
 );
 
-// Encrypt password using bcrypt
 UserSchema.pre('save', async function (next) {
   if (!this.isModified('password')) {
     next();
@@ -41,7 +40,6 @@ UserSchema.pre('save', async function (next) {
   this.password = await bcrypt.hash(this.password, salt);
 });
 
-// Match user entered password to hashed password in database
 UserSchema.methods.matchPassword = async function (enteredPassword) {
   return await bcrypt.compare(enteredPassword, this.password);
 };

@@ -13,7 +13,6 @@ const Filters = ({
 }) => {
   return (
     <div className="filters-container glass-panel">
-      {/* Search Input */}
       <div className="search-box">
         <Search size={18} className="search-icon" />
         <input
@@ -25,7 +24,6 @@ const Filters = ({
       </div>
 
       <div className="filter-controls">
-        {/* Status Filter */}
         <div className="control-group">
           <label><Filter size={14} /> Status</label>
           <div className="filter-chips">
@@ -41,7 +39,7 @@ const Filters = ({
           </div>
         </div>
 
-        {/* Priority Filter */}
+
         <div className="control-group">
           <label><Filter size={14} /> Priority</label>
           <div className="filter-chips">
@@ -57,7 +55,6 @@ const Filters = ({
           </div>
         </div>
 
-        {/* Sort By Dropdown */}
         <div className="control-group sort-group">
           <label><ArrowUpDown size={14} /> Sort By</label>
           <select value={sortBy} onChange={(e) => setSortBy(e.target.value)} className="sort-select options">

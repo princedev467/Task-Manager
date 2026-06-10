@@ -48,7 +48,7 @@ router.put('/:id', async (req, res) => {
       return res.status(401).json({ success: false, message: 'Not authorized to update this task' });
     }
 
-    // Update task
+    
     task = await Task.findByIdAndUpdate(req.params.id, req.body, {
       new: true,
       runValidators: true,

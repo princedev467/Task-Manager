@@ -39,21 +39,21 @@
 }
 
 :root.light-theme {
-  --bg-color: #F8FAFC;                        /* --color-bgTheme */
-  --panel-bg: rgba(255, 255, 255, 0.85);      /* --color-light_bg with opacity */
-  --border-color: #E2E8F0;                    /* --color-border */
+  --bg-color: #F8FAFC;                      
+  --panel-bg: rgba(255, 255, 255, 0.85);   
+  --border-color: #E2E8F0;                    
 
-  --text-primary: #0F172A;                    /* --color-light_primary */
-  --text-secondary: #475569;                  /* --color-light_secondary */
+  --text-primary: #0F172A;                
+  --text-secondary: #475569;               
   --text-muted: #94a3b8;
 
   /* Brand Colors */
-  --primary: #3B82F6;                         /* --color-btn-primary */
-  --primary-hover: #2563EB;                   /* --color-btn-primary-hover */
+  --primary: #3B82F6;                        
+  --primary-hover: #2563EB;                   
   --primary-light: rgba(59, 130, 246, 0.1);
 
-  --secondary: #14B8A6;                       /* --color-accent */
-  --secondary-hover: #0D9488;                 /* --color-btn-accent-hover */
+  --secondary: #14B8A6;                       
+  --secondary-hover: #0D9488;              
   --secondary-light: rgba(20, 184, 166, 0.1);
 
   --success: #10b981;
@@ -433,7 +433,6 @@ body {
   color: var(--text-secondary);
 }
 
-/* Dashboard Layout */
 .dashboard-container {
   display: grid;
   grid-template-columns: 280px 1fr;
@@ -447,7 +446,6 @@ body {
   }
 }
 
-/* Sidebar Overlay (mobile) */
 .sidebar-overlay {
   position: fixed;
   inset: 0;
@@ -728,6 +726,7 @@ body {
   z-index: 100;
   margin: 0 -1rem;
   width: calc(100% + 2rem);
+  padding-right: 3.75rem;
 }
 
 .mobile-menu-btn {
@@ -768,7 +767,6 @@ body {
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  margin-right: 2.5rem;
 }
 
 @media (max-width: 1023px) {
@@ -811,7 +809,6 @@ body {
   }
 }
 
-/* Main Content Area */
 .main-content {
   padding: 2.5rem;
   display: flex;
@@ -1016,7 +1013,6 @@ body {
   border-color: var(--primary);
 }
 
-/* Task Cards Grid */
 .task-section {
   display: flex;
   flex-direction: column;
@@ -1053,7 +1049,6 @@ body {
   }
 }
 
-/* Individual Task Card */
 .task-card {
   display: flex;
   flex-direction: column;
@@ -1245,7 +1240,6 @@ body {
   border-color: rgba(239, 68, 68, 0.2);
 }
 
-/* Modals */
 .modal-overlay {
   position: fixed;
   inset: 0;
@@ -1368,7 +1362,6 @@ body {
   margin-top: 0.5rem;
 }
 
-/* Empty / Fallback States */
 .empty-state {
   text-align: center;
   padding: 4rem 2rem;
@@ -1401,7 +1394,6 @@ body {
   margin-bottom: 0.5rem;
 }
 
-/* Animations */
 @keyframes fadeIn {
   from {
     opacity: 0;

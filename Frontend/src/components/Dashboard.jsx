@@ -5,7 +5,7 @@ import { fetchTasks, createTask, updateTask, deleteTask } from '../redux/Slice/t
 import TaskCard from './TaskCard';
 import TaskForm from './TaskForm';
 import Filters from './Filters';
-import { LogOut, Plus, CheckCircle, Clock, ShieldAlert, PlusCircle } from 'lucide-react';
+import { LogOut, Plus, CheckCircle, Clock, ShieldAlert, PlusCircle, Menu, X } from 'lucide-react';
 import toast from 'react-hot-toast';
 
 const Dashboard = () => {
@@ -13,22 +13,32 @@ const Dashboard = () => {
   const { user } = useSelector((state) => state.auth);
   const { tasks, isLoading, error } = useSelector((state) => state.tasks);
 
-  // Modal State
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [taskToEdit, setTaskToEdit] = useState(null);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
-  // Filter & Search State
   const [searchQuery, setSearchQuery] = useState('');
   const [statusFilter, setStatusFilter] = useState('all');
   const [priorityFilter, setPriorityFilter] = useState('all');
   const [sortBy, setSortBy] = useState('newest');
 
-  // Fetch all tasks on mount
   useEffect(() => {
     dispatch(fetchTasks());
   }, [dispatch]);
 
-  // Handle Task Completion Toggle
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth >= 1024) {
+        setIsSidebarOpen(false);
+      }
+    };
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  const closeSidebar = () => setIsSidebarOpen(false);
+  const openSidebar = () => setIsSidebarOpen(true);
+
   const handleToggleComplete = async (taskId, completedStatus) => {
     try {
       await dispatch(updateTask({ taskId, taskData: { completed: completedStatus } })).unwrap();
@@ -38,7 +48,6 @@ const Dashboard = () => {
     }
   };
 
-  // Handle Create Task Submission
   const handleCreateTask = async (taskData) => {
     try {
       await dispatch(createTask(taskData)).unwrap();
@@ -49,7 +58,6 @@ const Dashboard = () => {
     }
   };
 
-  // Handle Edit Task Submission
   const handleEditTask = async (taskData) => {
     try {
       await dispatch(updateTask({ taskId: taskToEdit._id, taskData })).unwrap();
@@ -61,7 +69,6 @@ const Dashboard = () => {
     }
   };
 
-  // Handle Delete Task
   const handleDeleteTask = async (taskId) => {
     if (window.confirm('Are you sure you want to delete this task?')) {
       try {
@@ -73,25 +80,22 @@ const Dashboard = () => {
     }
   };
 
-  // Handle Logout
   const handleLogout = () => {
     dispatch(logout());
     toast.success('Logged out successfully');
+    closeSidebar();
   };
 
-  // Launch Create Modal
   const openCreateModal = () => {
     setTaskToEdit(null);
     setIsModalOpen(true);
   };
 
-  // Launch Edit Modal
   const openEditModal = (task) => {
     setTaskToEdit(task);
     setIsModalOpen(true);
   };
 
-  // Calculations for Sidebar Statistics
   const totalCount = tasks.length;
   const completedTasks = tasks.filter((t) => t.completed);
   const completedCount = completedTasks.length;
@@ -101,10 +105,8 @@ const Dashboard = () => {
 
   const highPriorityPending = tasks.filter((t) => !t.completed && t.priority === 'high').length;
 
-  // Filtering & Sorting Process
   const filteredTasks = tasks
     .filter((task) => {
-      // 1. Search Query Filter
       const query = searchQuery.toLowerCase().trim();
       if (query) {
         const matchTitle = task.title.toLowerCase().includes(query);
@@ -112,17 +114,14 @@ const Dashboard = () => {
         if (!matchTitle && !matchDesc) return false;
       }
 
-      // 2. Status Filter
       if (statusFilter === 'pending' && task.completed) return false;
       if (statusFilter === 'completed' && !task.completed) return false;
 
-      // 3. Priority Filter
       if (priorityFilter !== 'all' && task.priority !== priorityFilter) return false;
 
       return true;
     })
     .sort((a, b) => {
-      // 4. Sort Options
       if (sortBy === 'newest') {
         return new Date(b.createdAt) - new Date(a.createdAt);
       }
@@ -143,13 +142,31 @@ const Dashboard = () => {
 
   return (
     <div className="dashboard-container">
-      {/* Sidebar Panel */}
-      <aside className="sidebar glass-panel">
+
+      {isSidebarOpen && (
+        <div
+          className="sidebar-overlay"
+          onClick={closeSidebar}
+          aria-label="Close sidebar"
+        />
+      )}
+
+      <aside className={`sidebar glass-panel${isSidebarOpen ? ' sidebar-open' : ''}`}>
+
+        <button
+          className="sidebar-close-btn"
+          onClick={closeSidebar}
+          aria-label="Close sidebar"
+        >
+          <X size={18} />
+        </button>
+
         <div className="sidebar-brand">
           <div className="brand-logo">✓</div>
           <span className="brand-name">TaskFlow</span>
         </div>
 
+        {/* User Profile */}
         <div className="user-profile">
           <div className="user-avatar">
             {user?.name ? user.name.split(' ').map(n => n[0]).join('').toUpperCase() : 'U'}
@@ -160,9 +177,10 @@ const Dashboard = () => {
           </div>
         </div>
 
-        {/* Stats Section */}
+        {/* Stats Overview */}
         <div className="sidebar-stats">
           <h5 className="section-title">Overview</h5>
+
           <div className="stat-card">
             <div className="stat-icon-wrapper check-icon">
               <CheckCircle size={18} />
@@ -195,7 +213,6 @@ const Dashboard = () => {
             </div>
           )}
 
-          {/* Progress Indicator */}
           <div className="progress-section">
             <div className="progress-header">
               <span>Task Progress</span>
@@ -216,8 +233,22 @@ const Dashboard = () => {
         </button>
       </aside>
 
-      {/* Main Panel */}
       <main className="main-content">
+
+        <div className="mobile-topbar">
+          <button
+            className="mobile-menu-btn"
+            onClick={openSidebar}
+            aria-label="Open sidebar"
+          >
+            <Menu size={20} />
+          </button>
+          <span className="brand-name">TaskFlow</span>
+          <div className="mobile-avatar">
+            {user?.name ? user.name.split(' ').map(n => n[0]).join('').toUpperCase() : 'U'}
+          </div>
+        </div>
+
         <header className="dashboard-header">
           <div className="header-greeting">
             <h1>Hello, {user?.name ? user.name.split(' ')[0] : 'User'} 👋</h1>
@@ -230,7 +261,6 @@ const Dashboard = () => {
           </button>
         </header>
 
-        {/* Filtering Options */}
         <Filters
           searchQuery={searchQuery}
           setSearchQuery={setSearchQuery}
@@ -242,10 +272,8 @@ const Dashboard = () => {
           setSortBy={setSortBy}
         />
 
-        {/* Errors Block */}
         {error && <div className="error-alert">{error}</div>}
 
-        {/* Task Lists Section */}
         <section className="task-section">
           <div className="section-header">
             <h2>
@@ -301,9 +329,16 @@ const Dashboard = () => {
             </div>
           )}
         </section>
+
+        <button
+          className="mobile-fab"
+          onClick={openCreateModal}
+          aria-label="Add new task"
+        >
+          <Plus size={26} />
+        </button>
       </main>
 
-      {/* Task Creation/Editing Overlay Modal */}
       <TaskForm
         isOpen={isModalOpen}
         onClose={() => {

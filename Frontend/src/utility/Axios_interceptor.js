@@ -7,7 +7,6 @@ export const axiosinstance = axios.create({
     withCredentials: true,
 });
 
-// Request interceptor — attach JWT token from localStorage
 axiosinstance.interceptors.request.use(
     function (config) {
         const token = localStorage.getItem('token');
@@ -21,13 +20,11 @@ axiosinstance.interceptors.request.use(
     }
 );
 
-// Response interceptor — handle errors globally
 axiosinstance.interceptors.response.use(
     function onFulfilled(response) {
         return response;
     },
     function onRejected(error) {
-        // If token expired / unauthorized, clear storage
         if (error.response && error.response.status === 401) {
             localStorage.removeItem('token');
             localStorage.removeItem('user');

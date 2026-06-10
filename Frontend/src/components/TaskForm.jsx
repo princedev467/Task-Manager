@@ -10,20 +10,17 @@ const TaskForm = ({ isOpen, onClose, onSubmit, taskToEdit }) => {
 
   const titleInputRef = useRef(null);
 
-  // Load task detail if editing
   useEffect(() => {
     if (taskToEdit) {
       setTitle(taskToEdit.title || '');
       setDescription(taskToEdit.description || '');
       setPriority(taskToEdit.priority || 'medium');
-      // Format date to YYYY-MM-DD for date input
       if (taskToEdit.dueDate) {
         setDueDate(new Date(taskToEdit.dueDate).toISOString().split('T')[0]);
       } else {
         setDueDate('');
       }
     } else {
-      // Clear form for new task
       setTitle('');
       setDescription('');
       setPriority('medium');
@@ -32,7 +29,6 @@ const TaskForm = ({ isOpen, onClose, onSubmit, taskToEdit }) => {
     setError('');
   }, [taskToEdit, isOpen]);
 
-  // Focus title input when modal opens
   useEffect(() => {
     if (isOpen && titleInputRef.current) {
       setTimeout(() => {

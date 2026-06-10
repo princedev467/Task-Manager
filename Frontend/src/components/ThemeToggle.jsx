@@ -7,7 +7,6 @@ const ThemeToggle = () => {
     if (savedTheme) {
       return savedTheme === 'dark';
     }
-    // Default to dark mode for premium look
     return true;
   });
 

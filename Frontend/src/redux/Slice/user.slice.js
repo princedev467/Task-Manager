@@ -7,7 +7,6 @@ const initialState = {
     error: null,
 };
 
-// Register thunk
 export const Register = createAsyncThunk(
     'user/Register',
     async (data, { rejectWithValue }) => {
@@ -15,7 +14,6 @@ export const Register = createAsyncThunk(
             const response = await axiosinstance.post('auth/register', data);
 
             if (response.data.success) {
-                // Store token in localStorage for persistence
                 localStorage.setItem('token', response.data.data.token);
                 localStorage.setItem('user', JSON.stringify(response.data.data));
                 return response.data.data;
@@ -29,7 +27,6 @@ export const Register = createAsyncThunk(
     }
 );
 
-// Login thunk
 export const Login = createAsyncThunk(
     'user/Login',
     async (data, { rejectWithValue }) => {
@@ -37,7 +34,6 @@ export const Login = createAsyncThunk(
             const response = await axiosinstance.post('auth/login', data);
 
             if (response.data.success) {
-                // Store token in localStorage for persistence
                 localStorage.setItem('token', response.data.data.token);
                 localStorage.setItem('user', JSON.stringify(response.data.data));
                 return response.data.data;
@@ -51,7 +47,7 @@ export const Login = createAsyncThunk(
     }
 );
 
-// Load user from localStorage on app startup
+
 export const loadUser = createAsyncThunk(
     'user/loadUser',
     async (_, { rejectWithValue }) => {
@@ -63,18 +59,15 @@ export const loadUser = createAsyncThunk(
                 return rejectWithValue('No token found');
             }
 
-            // Verify token is still valid by hitting /auth/me
             const response = await axiosinstance.get('auth/me');
 
             if (response.data.success) {
-                // Return stored data (which includes the token) merged with fresh user data
                 const userData = JSON.parse(storedUser);
                 return { ...userData, ...response.data.data, token };
             }
 
             return rejectWithValue('Token expired');
         } catch (error) {
-            // Token invalid — clear storage
             localStorage.removeItem('token');
             localStorage.removeItem('user');
             return rejectWithValue('Session expired');
@@ -98,7 +91,6 @@ const userSlice = createSlice({
         },
     },
     extraReducers: (builder) => {
-        // Register cases
         builder
             .addCase(Register.pending, (state) => {
                 state.isLoading = true;
@@ -115,7 +107,6 @@ const userSlice = createSlice({
                 state.error = action.payload;
             })
 
-            // Login cases
             .addCase(Login.pending, (state) => {
                 state.isLoading = true;
                 state.error = null;
@@ -130,8 +121,7 @@ const userSlice = createSlice({
                 state.user = null;
                 state.error = action.payload;
             })
-
-            // Load user cases
+            
             .addCase(loadUser.pending, (state) => {
                 state.isLoading = true;
             })

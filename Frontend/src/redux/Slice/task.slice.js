@@ -7,7 +7,6 @@ const initialState = {
     error: null,
 };
 
-// Fetch all tasks for the logged-in user
 export const fetchTasks = createAsyncThunk(
     'tasks/fetchTasks',
     async (_, { rejectWithValue }) => {
@@ -26,7 +25,6 @@ export const fetchTasks = createAsyncThunk(
     }
 );
 
-// Create a new task
 export const createTask = createAsyncThunk(
     'tasks/createTask',
     async (taskData, { rejectWithValue }) => {
@@ -45,7 +43,6 @@ export const createTask = createAsyncThunk(
     }
 );
 
-// Update an existing task (edit details or toggle completed)
 export const updateTask = createAsyncThunk(
     'tasks/updateTask',
     async ({ taskId, taskData }, { rejectWithValue }) => {
@@ -64,7 +61,7 @@ export const updateTask = createAsyncThunk(
     }
 );
 
-// Delete a task
+
 export const deleteTask = createAsyncThunk(
     'tasks/deleteTask',
     async (taskId, { rejectWithValue }) => {
@@ -72,7 +69,7 @@ export const deleteTask = createAsyncThunk(
             const response = await axiosinstance.delete(`tasks/${taskId}`);
 
             if (response.data.success) {
-                return taskId; // Return the ID so we can remove it from state
+                return taskId; 
             }
 
             return rejectWithValue('Failed to delete task');
@@ -97,7 +94,6 @@ const taskSlice = createSlice({
     },
     extraReducers: (builder) => {
         builder
-            // Fetch Tasks
             .addCase(fetchTasks.pending, (state) => {
                 state.isLoading = true;
                 state.error = null;
@@ -112,18 +108,16 @@ const taskSlice = createSlice({
                 state.error = action.payload;
             })
 
-            // Create Task
             .addCase(createTask.pending, (state) => {
                 state.error = null;
             })
             .addCase(createTask.fulfilled, (state, action) => {
-                state.tasks.unshift(action.payload); // Add to the beginning
+                state.tasks.unshift(action.payload);
             })
             .addCase(createTask.rejected, (state, action) => {
                 state.error = action.payload;
             })
 
-            // Update Task
             .addCase(updateTask.pending, (state) => {
                 state.error = null;
             })
@@ -139,7 +133,6 @@ const taskSlice = createSlice({
                 state.error = action.payload;
             })
 
-            // Delete Task
             .addCase(deleteTask.pending, (state) => {
                 state.error = null;
             })

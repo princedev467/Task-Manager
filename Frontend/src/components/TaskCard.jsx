@@ -4,7 +4,6 @@ import { Calendar, Edit3, Trash2, CheckCircle2, Circle, AlertTriangle } from 'lu
 const TaskCard = ({ task, onToggleComplete, onEdit, onDelete }) => {
   const { _id, title, description, completed, priority, dueDate } = task;
 
-  // Format date helper
   const formatDate = (dateString) => {
     if (!dateString) return null;
     const date = new Date(dateString);
@@ -15,7 +14,6 @@ const TaskCard = ({ task, onToggleComplete, onEdit, onDelete }) => {
     });
   };
 
-  // Check if task is overdue
   const isOverdue = () => {
     if (!dueDate || completed) return false;
     const today = new Date();
@@ -28,7 +26,6 @@ const TaskCard = ({ task, onToggleComplete, onEdit, onDelete }) => {
   return (
     <div className={`task-card glass-panel ${completed ? 'task-completed' : ''} priority-${priority}`}>
       <div className="task-card-body">
-        {/* Toggle Checkbox Button */}
         <button
           onClick={() => onToggleComplete(_id, !completed)}
           className={`checkbox-btn ${completed ? 'checked' : ''}`}
@@ -46,12 +43,10 @@ const TaskCard = ({ task, onToggleComplete, onEdit, onDelete }) => {
           {description && <p className="task-desc">{description}</p>}
 
           <div className="task-meta">
-            {/* Priority Badge */}
             <span className={`priority-badge badge-${priority}`}>
               {priority.toUpperCase()}
             </span>
 
-            {/* Due Date Indicator */}
             {dueDate && (
               <span className={`date-badge ${isOverdue() ? 'overdue' : ''}`}>
                 {isOverdue() ? (
@@ -67,7 +62,6 @@ const TaskCard = ({ task, onToggleComplete, onEdit, onDelete }) => {
         </div>
       </div>
 
-      {/* Task Actions */}
       <div className="task-actions">
         <button onClick={() => onEdit(task)} className="btn-icon btn-edit" title="Edit Task">
           <Edit3 size={18} />
