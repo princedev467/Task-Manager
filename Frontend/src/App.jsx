@@ -4,8 +4,8 @@ import { Toaster } from 'react-hot-toast';
 import { loadUser, logout } from './redux/Slice/user.slice';
 import AuthForm from './components/AuthForm';
 import Dashboard from './components/Dashboard';
-import ThemeToggle from './components/ThemeToggle';
 import './App.css';
+import ThemeToggle from './components/ThemeToggle';
 
 function App() {
   const dispatch = useDispatch();
@@ -66,7 +66,8 @@ function App() {
           },
         }}
       />
-      {!user && <ThemeToggle />}
+      
+      {user && <ThemeToggle />}
       {user ? <Dashboard /> : <AuthForm />}
     </>
   );
