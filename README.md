@@ -1,12 +1,12 @@
 
 
- <div align="center">📋 Task Manager</div>
+ <div align="center">✔️ Task Flow</div>
 
 <div align="center">
 
 <h3>⚡ Modern Full Stack Task Management Application</h3>
 
-<p><em>Organize your work. Achieve your goals. One task at a time.</em></p>
+<p><em>Organize your work. Achieve your goals</em></p>
 
 <br/>
 </div>
