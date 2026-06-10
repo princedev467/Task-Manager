@@ -58,7 +58,8 @@ function App() {
           },
         }}
       />
-      <ThemeToggle />
+      {/* ThemeToggle is shown on auth page; on dashboard it's embedded in the header */}
+      {!user && <ThemeToggle />}
       {user ? <Dashboard /> : <AuthForm />}
     </>
   );

@@ -6,6 +6,7 @@ import TaskCard from './TaskCard';
 import TaskForm from './TaskForm';
 import Filters from './Filters';
 import { LogOut, Plus, CheckCircle, Clock, ShieldAlert, PlusCircle, Menu, X } from 'lucide-react';
+import ThemeToggle from './ThemeToggle';
 import toast from 'react-hot-toast';
 
 const Dashboard = () => {
@@ -244,8 +245,11 @@ const Dashboard = () => {
             <Menu size={20} />
           </button>
           <span className="brand-name">TaskFlow</span>
-          <div className="mobile-avatar">
-            {user?.name ? user.name.split(' ').map(n => n[0]).join('').toUpperCase() : 'U'}
+          <div className="mobile-topbar-actions">
+            <ThemeToggle />
+            <div className="mobile-avatar">
+              {user?.name ? user.name.split(' ').map(n => n[0]).join('').toUpperCase() : 'U'}
+            </div>
           </div>
         </div>
 
@@ -255,10 +259,13 @@ const Dashboard = () => {
             <p>Here is your personal task workspace. Let's make today productive!</p>
           </div>
 
-          <button onClick={openCreateModal} className="btn-primary btn-add-task">
-            <Plus size={20} />
-            <span>New Task</span>
-          </button>
+          <div className="header-actions">
+            <ThemeToggle />
+            <button onClick={openCreateModal} className="btn-primary btn-add-task">
+              <Plus size={20} />
+              <span>New Task</span>
+            </button>
+          </div>
         </header>
 
         <Filters
